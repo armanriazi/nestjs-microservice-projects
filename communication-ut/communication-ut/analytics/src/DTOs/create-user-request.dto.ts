@@ -1,4 +1,4 @@
 export class CreateUserRequest {
-  email: string;
-  password: string;
+  username: string;
+  bookname: string;
 }

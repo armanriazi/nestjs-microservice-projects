@@ -12,12 +12,13 @@ export class AppService {
   handleUserCreated(data: CreateUserEvent) {
     console.log('handlerUserCreated - ANALYTICS', data);
     this.analytics.push({
-      email: data.email,
+      username: data.username,
       timestamp: new Date(),
     });
+    
   }
 
-  getAnalytics() {
+  getAnalytics() : any[] {   
     return this.analytics;
   }
 }

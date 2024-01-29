@@ -18,15 +18,15 @@ export class AppService {
     this.users.push(createUserRequest);
     this.communicationClient.emit(
       'user_created',
-      new CreateUserEvent(createUserRequest.email),
+      new CreateUserEvent(createUserRequest.username),
     );
     this.analyticsClient.emit(
       'user_created',
-      new CreateUserEvent(createUserRequest.email),
+      new CreateUserEvent(createUserRequest.username),
     );
   }
 
   getAnalytics(): void {
-     this.analyticsClient.send({ cmd: 'get_analytics' }, {});
+    this.analyticsClient.send({ cmd: 'get_analytics' }, {});
   }
 }

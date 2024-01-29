@@ -1,3 +1,4 @@
 export class CreateUserEvent {
-  constructor(public readonly email: string) {}
+  constructor(public readonly username: string) {}
 }
+

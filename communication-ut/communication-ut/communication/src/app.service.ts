@@ -8,6 +8,6 @@ export class AppService {
   }
 
   handleUserCreated(data: CreateUserEvent) {
-    console.log(`handleUserCreated - COMMUNICATIONS By Email:${data.email}`);
+    console.log(`handleUserCreated - COMMUNICATIONS By username:${data.username}`);
   }
 }
