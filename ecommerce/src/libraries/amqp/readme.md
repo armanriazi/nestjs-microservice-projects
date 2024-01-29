@@ -1,0 +1,1 @@
+Amqp folder used for saved all of modules that related to amqp (Advanced Message Queuing Protocol) by default we are using RabbitMQ for communitate with AMQP protocol
