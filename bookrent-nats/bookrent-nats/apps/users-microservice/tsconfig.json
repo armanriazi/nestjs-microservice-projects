@@ -5,14 +5,14 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "outDir": "../../.moon/cache/types/apps/users-microservice",
+    "sourceMap": false,
     "baseUrl": "./",
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "outDir": "../../.moon/cache/types/apps/users-microservice"
   },
   "watchOptions": {
     "watchFile": "dynamicPriorityPolling",

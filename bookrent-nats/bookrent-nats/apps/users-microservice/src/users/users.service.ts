@@ -15,9 +15,9 @@ export class UsersService {
     return this.usersRepository.save(newUser);
   }
 
-  getUserById(userId: string) {
+  getUserById(user_id: number) {
     return this.usersRepository.findOne({
-      where: { id: userId },
+      where: { id: user_id },
       relations: ['orders'],
     });
   }

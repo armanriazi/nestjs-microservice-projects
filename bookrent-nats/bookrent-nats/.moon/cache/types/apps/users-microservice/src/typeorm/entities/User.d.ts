@@ -1,9 +1,7 @@
-import { Order } from './Order';
 export declare class User {
-    id: string;
+    id: number;
     username: string;
-    email: string;
-    displayName?: string;
-    orders: Order[];
+    email?: string;
+    password: string;
 }
 //# sourceMappingURL=User.d.ts.map

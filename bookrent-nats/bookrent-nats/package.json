@@ -22,7 +22,7 @@
     "lint": "moon run :lint",
     "dev": "moon run :dev",
     "build": "moon run :build",
-    "app": "moon run :task --query 'projectType=application'",
+    "task:app": "moon run :task --query 'projectType=application'",
     "http-api-gateway": "moon run http-api-gateway:build",
     "users-microservice": "moon run users-microservice:build",
     "orders-microservice": "moon run orders-microservice:build",

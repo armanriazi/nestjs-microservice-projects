@@ -1,14 +1,35 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+} from 'typeorm';
 import { User } from './User';
 
-@Entity({ name: 'orders' })
+export enum BookStateType {
+  RENTED,
+  QUEUE,
+  READY,
+}
+
+@Entity({ name: 'order' })
 export class Order {
+  // @ManyToOne(() => User, (user) => user.orders)
+  // user: User;
+
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: number;
 
   @Column('float')
-  bookId: number;
+  bookname: string;
 
-  @ManyToOne(() => User, (user) => user.orders)
-  user: User;
+  @Column({
+    type: 'enum',
+    enum: BookStateType,
+    default: BookStateType.READY,
+  })
+  bookstateType: BookStateType;
+  
+  @JoinColumn()
+  user_id: User; //[];
 }

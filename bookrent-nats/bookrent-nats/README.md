@@ -108,7 +108,7 @@ The strategy for how entire directory trees are watched under systems that lack 
 This repository contains 3 Nest.js projects:
 
 - http-api-gateway
-- payments-microservice
+- orders-microservice
 - users-microservice
 
 You can find the video tutorial for this project [here]('https://youtube.com/)
@@ -131,9 +131,9 @@ This is a [hybrid application](https://docs.nestjs.com/faq/hybrid-application) t
 
 Any HTTP API endpoints should be defined in this project.
 
-### Payments Microservice
+### orders Microservice
 
-This is a sample microservice that has a createPayment event handler from the NATS server whenever it is triggered. It will create a payment record and save it to the database.
+This is a sample microservice that has a createOrder event handler from the NATS server whenever it is triggered. It will create a order record and save it to the database.
 
 ### Users Microservice
 

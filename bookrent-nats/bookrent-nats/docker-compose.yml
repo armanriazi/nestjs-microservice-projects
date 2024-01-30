@@ -13,10 +13,10 @@ services:
     volumes:
       - ./users-microservice/src:/usr/src/app/src
     command: npm run start:dev
-  payments_microservice:
-    build: ./payments-microservice
+  orders_microservice:
+    build: ./orders-microservice
     volumes:
-      - ./payments-microservice/src:/usr/src/app/src
+      - ./orders-microservice/src:/usr/src/app/src
     command: npm run start:dev
   nats:
     image: nats

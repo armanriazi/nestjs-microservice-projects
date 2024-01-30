@@ -21,9 +21,8 @@ export class OrdersService {
     console.log(user);
     if (user) {
       const newOrder = this.ordersRepository.create({
-        ...createOrderDto,
-        user,
-      });
+        ...createOrderDto,        
+      });//user_id,
       console.log(newOrder);
       return this.ordersRepository.save(newOrder);
     }
