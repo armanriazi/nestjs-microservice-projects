@@ -1,0 +1,1 @@
+{"version":3,"file":"Order.d.ts","sourceRoot":"","sources":["../../../../../../../../apps/orders-microservice/src/typeorm/entities/Order.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,IAAI,EAAE,MAAM,QAAQ,CAAC;AAE9B,qBACa,KAAK;IAEhB,EAAE,EAAE,MAAM,CAAC;IAGX,MAAM,EAAE,MAAM,CAAC;IAGf,IAAI,EAAE,IAAI,CAAC;CACZ"}

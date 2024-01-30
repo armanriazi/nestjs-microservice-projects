@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.options.json",
+  "files": [],
+  "references": [
+    {
+      "path": "apps/http-api-gateway"
+    },
+    {
+      "path": "apps/orders-microservice"
+    },
+    {
+      "path": "apps/users-microservice"
+    }
+  ]
+}

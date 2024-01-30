@@ -1,0 +1,4 @@
+packages:
+  - "apps/users-microservice"
+  - "apps/orders-microservice"
+  - "apps/http-api-gateway"

@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.options.json",
+  "compilerOptions": {
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "outDir": "../../.moon/cache/types/apps/users-microservice",
+    "baseUrl": "./",
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  },
+  "watchOptions": {
+    "watchFile": "dynamicPriorityPolling",
+    "watchDirectory": "dynamicPriorityPolling",
+    "excludeDirectories": [
+      "**/node_modules",
+      "dist"
+    ]
+  }
+}
