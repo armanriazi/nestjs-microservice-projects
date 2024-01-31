@@ -14,15 +14,16 @@ export class OrdersService {
     @Inject('NATS_SERVICE') private natsClient: ClientProxy,
   ) {}
 
-  async createOrder({ user_id, ...createOrderDto }: CreateOrderDto) {
+  async createOrder({ userId, ...createOrderDto }: CreateOrderDto) {
     const user = await lastValueFrom<User>(
-      this.natsClient.send({ cmd: 'getUserById' }, { user_id }),
+      this.natsClient.send({ cmd: 'getUserById' }, { userId }),
     );
     console.log(user);
     if (user) {
       const newOrder = this.ordersRepository.create({
-        ...createOrderDto,        
-      });//user_id,
+        ...createOrderDto,
+        user,
+      });
       console.log(newOrder);
       return this.ordersRepository.save(newOrder);
     }

@@ -1,7 +1,7 @@
 {
   "name": "bookrent-nats",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "microservice by Arman Riazi",
   "infra": "monorepo",
   "private": true,
   "scripts": {

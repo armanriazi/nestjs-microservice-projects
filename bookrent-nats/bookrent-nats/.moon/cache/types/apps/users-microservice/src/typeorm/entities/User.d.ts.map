@@ -1,1 +1,0 @@
-{"version":3,"file":"User.d.ts","sourceRoot":"","sources":["../../../../../../../../apps/users-microservice/src/typeorm/entities/User.ts"],"names":[],"mappings":"AAGA,qBACa,IAAI;IAEf,EAAE,EAAE,MAAM,CAAC;IAGX,QAAQ,EAAE,MAAM,CAAC;IAGjB,KAAK,CAAC,EAAE,MAAM,CAAC;IAGf,QAAQ,EAAE,MAAM,CAAC;CAClB"}

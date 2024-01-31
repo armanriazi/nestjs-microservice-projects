@@ -7,14 +7,14 @@ import { Order } from './typeorm/entities/Order';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'mysql_db',
-      port: 3307,
-      database: 'nestjs_db',
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      database: 'bookrent',
       entities: [User, Order],
       synchronize: true,
-      username: 'testuser',
-      password: 'testuser123',
+      username: 'postgres',
+      password: 'postgres',
     }),
     UsersModule,
   ],

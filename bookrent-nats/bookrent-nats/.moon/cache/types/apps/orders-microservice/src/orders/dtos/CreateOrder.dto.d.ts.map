@@ -1,1 +1,0 @@
-{"version":3,"file":"CreateOrder.dto.d.ts","sourceRoot":"","sources":["../../../../../../../../apps/orders-microservice/src/orders/dtos/CreateOrder.dto.ts"],"names":[],"mappings":"AACA,oBAAa,aAAa;IACxB,MAAM,IAAA;IACN,KAAK,IAAA;IACL,KAAK,IAAA;CACN;AAED,qBAAa,cAAc;IACzB,QAAQ,EAAE,MAAM,CAAC;IACjB,OAAO,EAAE,MAAM,CAAC;IAChB,aAAa,EAAE,aAAa,CAAC;CAC9B"}
