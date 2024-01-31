@@ -6,7 +6,7 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   bookname: string;
 
   @ManyToOne(() => User, (user) => user.orders)
