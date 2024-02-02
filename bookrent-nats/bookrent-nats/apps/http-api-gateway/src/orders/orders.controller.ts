@@ -7,7 +7,7 @@ export class OrdersController {
   constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
 
   @Post()
-  createOrder(@Body() createOrderDto: CreateOrderDto) {
-    this.natsClient.emit('createOrder', createOrderDto);
+  async createOrder(@Body() createOrderDto: CreateOrderDto) {
+    return await this.natsClient.send({ cmd: 'createOrder' }, createOrderDto);            
   }
 }

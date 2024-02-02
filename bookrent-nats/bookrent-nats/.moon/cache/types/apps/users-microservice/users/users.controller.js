@@ -17,23 +17,27 @@ const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const CreateUser_dto_1 = require("./dtos/CreateUser.dto");
 const users_service_1 = require("./users.service");
+const cqrs_1 = require("@nestjs/cqrs");
+const impl_1 = require("../queries/impl");
 let UsersMicroserviceController = class UsersMicroserviceController {
-    constructor(usersService) {
+    constructor(usersService, queryBus) {
         this.usersService = usersService;
+        this.queryBus = queryBus;
+    }
+    async findUserAll() {
+        return this.queryBus.execute(new impl_1.GetUsersQuery());
+    }
+    getUserById(data) {
+        const { userId } = data;
+        return this.queryBus.execute(new impl_1.GetUserByIdQuery(userId));
     }
     createUser(data) {
         return this.usersService.createUser(data);
     }
-    getUserById(data) {
-        const { userId } = data;
-        return this.usersService.getUserById(userId);
-    }
-    queueUserById(data) {
-        const { userId } = data;
-        const user = this.usersService.getUserById(userId);
-        return user;
-    }
     orderCreated(data) {
+        console.info(data);
+    }
+    createOrder(data) {
         console.info(data);
     }
     inQueueOrderCreated(data) {
@@ -42,12 +46,11 @@ let UsersMicroserviceController = class UsersMicroserviceController {
 };
 exports.UsersMicroserviceController = UsersMicroserviceController;
 __decorate([
-    (0, microservices_1.MessagePattern)({ cmd: 'createUser' }),
-    __param(0, (0, microservices_1.Payload)()),
+    (0, microservices_1.MessagePattern)({ cmd: 'findUserAll' }),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateUser_dto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
-], UsersMicroserviceController.prototype, "createUser", null);
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersMicroserviceController.prototype, "findUserAll", null);
 __decorate([
     (0, microservices_1.MessagePattern)({ cmd: 'getUserById' }),
     __param(0, (0, microservices_1.Payload)()),
@@ -56,12 +59,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersMicroserviceController.prototype, "getUserById", null);
 __decorate([
-    (0, microservices_1.MessagePattern)({ cmd: 'queueUserById' }),
+    (0, microservices_1.MessagePattern)({ cmd: 'createUser' }),
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [CreateUser_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
-], UsersMicroserviceController.prototype, "queueUserById", null);
+], UsersMicroserviceController.prototype, "createUser", null);
 __decorate([
     (0, microservices_1.EventPattern)('orderCreated'),
     __param(0, (0, microservices_1.Payload)()),
@@ -70,7 +73,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersMicroserviceController.prototype, "orderCreated", null);
 __decorate([
-    (0, microservices_1.EventPattern)('inQueueOrderCreated'),
+    (0, microservices_1.MessagePattern)({ cmd: 'createOrder' }),
+    __param(0, (0, microservices_1.Payload)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsersMicroserviceController.prototype, "createOrder", null);
+__decorate([
+    (0, microservices_1.MessagePattern)({ cmd: 'inQueueOrderCreated' }),
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -78,6 +88,7 @@ __decorate([
 ], UsersMicroserviceController.prototype, "inQueueOrderCreated", null);
 exports.UsersMicroserviceController = UsersMicroserviceController = __decorate([
     (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [users_service_1.UsersService])
+    __metadata("design:paramtypes", [users_service_1.UsersService,
+        cqrs_1.QueryBus])
 ], UsersMicroserviceController);
 //# sourceMappingURL=users.controller.js.map

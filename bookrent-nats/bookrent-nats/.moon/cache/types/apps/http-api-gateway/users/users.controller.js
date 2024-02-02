@@ -21,12 +21,18 @@ let UsersController = class UsersController {
     constructor(natsClient) {
         this.natsClient = natsClient;
     }
-    createUser(createUserDto) {
-        console.log(createUserDto);
-        return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
+    async createUser(createUserDto) {
+        return await this.natsClient.send({ cmd: 'createUser' }, createUserDto);
     }
     async getUserById(id) {
         const user = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId: id }));
+        if (user)
+            return user;
+        else
+            throw new common_1.HttpException('User Not Found', 404);
+    }
+    async findUserAll() {
+        const user = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'findUserAll' }, { data: '' }));
         if (user)
             return user;
         else
@@ -39,7 +45,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [CreateUser_dto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createUser", null);
 __decorate([
     (0, common_1.Get)(':id'),
@@ -48,6 +54,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getUserById", null);
+__decorate([
+    (0, common_1.Get)('findUserAll'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "findUserAll", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __param(0, (0, common_1.Inject)('NATS_SERVICE')),

@@ -39,14 +39,15 @@ let OrdersService = class OrdersService {
         if (rnd > 3) {
             console.log(rnd);
             const { id, username, email, displayName, orders } = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
-            var { bookname, bookstateType } = { ...createOrderDto };
-            bookstateType = 1;
+            const { bookname } = { ...createOrderDto };
             console.log('---QUEUE---');
-            var old_orders = [orders];
+            const old_orders = [orders];
             {
-                let finalCreatedTransitionOrder = new CreateTransitionOrder_dto_1.CreateTransitionOrder(bookname);
-                let orders = old_orders ? old_orders.concat([finalCreatedTransitionOrder]) : [{ finalCreatedTransitionOrder }];
-                this.natsClient.emit('inQueueOrderCreated', { id, username, email, displayName, orders });
+                const finalCreatedTransitionOrder = new CreateTransitionOrder_dto_1.CreateTransitionOrder(bookname);
+                const orders = old_orders
+                    ? old_orders.concat([finalCreatedTransitionOrder])
+                    : [{ finalCreatedTransitionOrder }];
+                await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'inQueueOrderCreated' }, { id, username, email, displayName, orders }));
             }
         }
         for (let i = 0; i < rnd; i++) {

@@ -21,15 +21,20 @@ let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    createUser(createUserDto) {
-        const newUser = this.usersRepository.create(createUserDto);
-        return this.usersRepository.save(newUser);
-    }
-    async getUserById(userId) {
-        return this.usersRepository.findOne({
-            where: { id: userId },
+    async findAll() {
+        return this.usersRepository.find({
             relations: ['orders'],
         });
+    }
+    async getUserById(user) {
+        return await this.usersRepository.findOne({
+            where: { id: user.userId },
+            relations: ['orders'],
+        });
+    }
+    async createUser(createUserDto) {
+        const newUser = this.usersRepository.create(createUserDto);
+        return await this.usersRepository.save(newUser);
     }
 };
 exports.UsersService = UsersService;

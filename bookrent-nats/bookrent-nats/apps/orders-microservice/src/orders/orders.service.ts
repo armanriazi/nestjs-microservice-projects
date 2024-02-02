@@ -27,34 +27,37 @@ export class OrdersService {
   async createOrder({ userId, ...createOrderDto }: CreateOrderDto) {
     const user = await lastValueFrom<User>(
       this.natsClient.send({ cmd: 'getUserById' }, { userId }),
-    );   
+    );
 
     const rnd = randomInt(3, 20);
 
     if (rnd > 3) {
       console.log(rnd);
-      
+
       //console.log('----TMP-----');
       //console.log(tmp);
-      const {id, username, email, displayName, orders } = await lastValueFrom<User>(
-        this.natsClient.send({ cmd: 'getUserById' }, { userId }),
-      );
-      var { bookname, bookstateType} = { ...createOrderDto };
-      bookstateType = 1;
-      console.log('---QUEUE---');
-      
-      var old_orders= [orders] as unknown as Array<CreateTransitionOrder>;
-      {
-        let finalCreatedTransitionOrder=new CreateTransitionOrder(bookname);
-        let orders =         
-        old_orders ? old_orders.concat([finalCreatedTransitionOrder]) : [{finalCreatedTransitionOrder}];
+      const { id, username, email, displayName, orders } =
+        await lastValueFrom<User>(
+          this.natsClient.send({ cmd: 'getUserById' }, { userId }),
+        );
+      const { bookname } = { ...createOrderDto };
 
-        this.natsClient.emit('inQueueOrderCreated', {id, username, email, displayName, orders});
-        // await lastValueFrom<User>(
-        //   this.natsClient.send({ cmd: 'inQueueOrderCreated' }, { id, username, email, displayName, orders }),
-        // );
-        
-      }      
+      console.log('---QUEUE---');
+
+      const old_orders = [orders] as unknown as Array<CreateTransitionOrder>;
+      {
+        const finalCreatedTransitionOrder = new CreateTransitionOrder(bookname);
+        const orders = old_orders
+          ? old_orders.concat([finalCreatedTransitionOrder])
+          : [{ finalCreatedTransitionOrder }];
+
+        await lastValueFrom<User>(
+          this.natsClient.send(
+            { cmd: 'inQueueOrderCreated' },
+            { id, username, email, displayName, orders },
+          ),
+        );
+      }
     }
 
     for (let i = 0; i < rnd; i++) {

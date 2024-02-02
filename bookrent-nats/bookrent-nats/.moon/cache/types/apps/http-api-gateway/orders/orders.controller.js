@@ -20,8 +20,8 @@ let OrdersController = class OrdersController {
     constructor(natsClient) {
         this.natsClient = natsClient;
     }
-    createOrder(createOrderDto) {
-        this.natsClient.emit('createOrder', createOrderDto);
+    async createOrder(createOrderDto) {
+        return await this.natsClient.send({ cmd: 'createOrder' }, createOrderDto);
     }
 };
 exports.OrdersController = OrdersController;
@@ -30,7 +30,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [CreateOrder_dto_1.CreateOrderDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "createOrder", null);
 exports.OrdersController = OrdersController = __decorate([
     (0, common_1.Controller)('orders'),

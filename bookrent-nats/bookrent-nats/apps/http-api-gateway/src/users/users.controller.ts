@@ -16,15 +16,24 @@ export class UsersController {
   constructor(@Inject('NATS_SERVICE') private natsClient: ClientProxy) {}
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    return this.natsClient.send({ cmd: 'createUser' }, createUserDto);
+  async createUser(@Body() createUserDto: CreateUserDto) {
+
+    return await this.natsClient.send({ cmd: 'createUser' }, createUserDto);    
   }
 
   @Get(':id')
   async getUserById(@Param('id') id: string) {
     const user = await lastValueFrom(
       this.natsClient.send({ cmd: 'getUserById' }, { userId: id }),
+    );
+    if (user) return user;
+    else throw new HttpException('User Not Found', 404);
+  }
+
+  @Get('findUserAll')
+  async findUserAll() {
+    const user = await lastValueFrom(
+      this.natsClient.send({ cmd: 'findUserAll' }, {data:''}),
     );
     if (user) return user;
     else throw new HttpException('User Not Found', 404);
