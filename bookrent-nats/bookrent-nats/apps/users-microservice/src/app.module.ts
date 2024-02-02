@@ -11,7 +11,7 @@ import { Order } from './typeorm/entities/Order';
       host: 'localhost',
       port: 5432,
       database: 'bookrent',
-      entities: [User, Order],
+      entities: [Order, User],
       synchronize: true,
       username: 'postgres',
       password: 'postgres',

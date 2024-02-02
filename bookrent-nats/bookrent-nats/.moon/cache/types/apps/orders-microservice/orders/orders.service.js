@@ -38,7 +38,7 @@ let OrdersService = class OrdersService {
         const rnd = (0, crypto_1.randomInt)(3, 20);
         if (rnd > 3) {
             console.log(rnd);
-            const { id, username, email, displayName, orders } = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'queueUserById' }, { userId }));
+            const { id, username, email, displayName, orders } = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
             var { bookname, bookstateType } = { ...createOrderDto };
             bookstateType = 1;
             console.log('---QUEUE---');

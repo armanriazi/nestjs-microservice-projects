@@ -13,8 +13,8 @@ export class UsersMicroserviceController {
   }
 
   @MessagePattern({ cmd: 'getUserById' })
-  getUserById(@Payload() data) {
-    const { userId } = data;
+  getUserById(@Payload() data) {    
+    const {userId} = data;
     return this.usersService.getUserById(userId);
   }
 
@@ -24,7 +24,7 @@ export class UsersMicroserviceController {
     const user = this.usersService.getUserById(userId);
     // TODO: Having data user will fetch from DB, we must map bookstateType= 'QUEUE' at the latest record
     //const someNumbers = user<Array>;
-    console.log(user);
+    //console.log(user);
     return user;
   }
 

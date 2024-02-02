@@ -25,7 +25,7 @@ let UsersService = class UsersService {
         const newUser = this.usersRepository.create(createUserDto);
         return this.usersRepository.save(newUser);
     }
-    getUserById(userId) {
+    async getUserById(userId) {
         return this.usersRepository.findOne({
             where: { id: userId },
             relations: ['orders'],

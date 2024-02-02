@@ -37,7 +37,7 @@ export class OrdersService {
       //console.log('----TMP-----');
       //console.log(tmp);
       const {id, username, email, displayName, orders } = await lastValueFrom<User>(
-        this.natsClient.send({ cmd: 'queueUserById' }, { userId }),
+        this.natsClient.send({ cmd: 'getUserById' }, { userId }),
       );
       var { bookname, bookstateType} = { ...createOrderDto };
       bookstateType = 1;
@@ -50,6 +50,9 @@ export class OrdersService {
         old_orders ? old_orders.concat([finalCreatedTransitionOrder]) : [{finalCreatedTransitionOrder}];
 
         this.natsClient.emit('inQueueOrderCreated', {id, username, email, displayName, orders});
+        // await lastValueFrom<User>(
+        //   this.natsClient.send({ cmd: 'inQueueOrderCreated' }, { id, username, email, displayName, orders }),
+        // );
         
       }      
     }

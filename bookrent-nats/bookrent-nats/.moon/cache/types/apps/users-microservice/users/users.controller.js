@@ -31,7 +31,6 @@ let UsersMicroserviceController = class UsersMicroserviceController {
     queueUserById(data) {
         const { userId } = data;
         const user = this.usersService.getUserById(userId);
-        console.log(user);
         return user;
     }
     orderCreated(data) {
