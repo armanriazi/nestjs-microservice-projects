@@ -9,8 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateOrderDto = void 0;
+exports.CreateOrderDto = exports.BookStateType = void 0;
 const class_validator_1 = require("class-validator");
+var BookStateType;
+(function (BookStateType) {
+    BookStateType[BookStateType["RENTED"] = 0] = "RENTED";
+    BookStateType[BookStateType["QUEUE"] = 1] = "QUEUE";
+    BookStateType[BookStateType["READY"] = 2] = "READY";
+})(BookStateType || (exports.BookStateType = BookStateType = {}));
 class CreateOrderDto {
 }
 exports.CreateOrderDto = CreateOrderDto;
@@ -19,6 +25,10 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateOrderDto.prototype, "bookname", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(BookStateType),
+    __metadata("design:type", Number)
+], CreateOrderDto.prototype, "bookstateType", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)

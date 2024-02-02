@@ -17,22 +17,47 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const Order_1 = require("../typeorm/entities/Order");
 const typeorm_2 = require("typeorm");
+const CreateTransitionOrder_dto_1 = require("./dtos/CreateTransitionOrder.dto");
 const microservices_1 = require("@nestjs/microservices");
 const rxjs_1 = require("rxjs");
+const crypto_1 = require("crypto");
 let OrdersService = class OrdersService {
     constructor(ordersRepository, natsClient) {
         this.ordersRepository = ordersRepository;
         this.natsClient = natsClient;
     }
+    delay(milliseconds, count) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(count);
+            }, milliseconds);
+        });
+    }
     async createOrder({ userId, ...createOrderDto }) {
         const user = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
-        console.log(user);
+        const rnd = (0, crypto_1.randomInt)(3, 20);
+        if (rnd > 3) {
+            console.log(rnd);
+            const { id, username, email, displayName, orders } = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'queueUserById' }, { userId }));
+            var { bookname, bookstateType } = { ...createOrderDto };
+            bookstateType = 1;
+            console.log('---QUEUE---');
+            var old_orders = [orders];
+            {
+                let finalCreatedTransitionOrder = new CreateTransitionOrder_dto_1.CreateTransitionOrder(bookname);
+                let orders = old_orders ? old_orders.concat([finalCreatedTransitionOrder]) : [{ finalCreatedTransitionOrder }];
+                this.natsClient.emit('inQueueOrderCreated', { id, username, email, displayName, orders });
+            }
+        }
+        for (let i = 0; i < rnd; i++) {
+            await this.delay(rnd * 100, i);
+        }
+        console.log('\n-----------End of delay---------\n');
         if (user) {
             const newOrder = this.ordersRepository.create({
                 ...createOrderDto,
                 user,
             });
-            console.log(newOrder);
             return this.ordersRepository.save(newOrder);
         }
         return null;

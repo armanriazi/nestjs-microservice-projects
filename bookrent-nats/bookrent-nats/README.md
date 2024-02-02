@@ -26,6 +26,8 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+Scroll down to read the characteristic of the microservice projects.
+
 ## Installation
 
 ```bash
@@ -142,7 +144,7 @@ This is a user microservice that has a createUser event handler from the NATS se
 
 # Monorepo 
 
-// Config file for subprojects to build independent of the other projects or monorepo building. Before building with monorepo, we must build sub projects independents based on the follow configuration.
+Config file for subprojects to build independent of the other projects or monorepo building. Before building with monorepo, we must build sub projects independents based on the follow configuration.
 
 ```json
 {

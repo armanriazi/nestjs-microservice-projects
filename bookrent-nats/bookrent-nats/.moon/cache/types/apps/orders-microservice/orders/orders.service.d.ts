@@ -6,5 +6,6 @@ export declare class OrdersService {
     private ordersRepository;
     private natsClient;
     constructor(ordersRepository: Repository<Order>, natsClient: ClientProxy);
+    delay(milliseconds: number, count: number): Promise<number>;
     createOrder({ userId, ...createOrderDto }: CreateOrderDto): Promise<Order>;
 }

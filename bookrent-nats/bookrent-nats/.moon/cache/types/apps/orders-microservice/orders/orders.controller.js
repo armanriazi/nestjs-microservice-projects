@@ -23,7 +23,6 @@ let OrdersMicroserviceController = class OrdersMicroserviceController {
         this.ordersService = ordersService;
     }
     async createOrder(createOrderDto) {
-        console.log(createOrderDto);
         const newOrder = await this.ordersService.createOrder(createOrderDto);
         if (newOrder)
             this.natsClient.emit('orderCreated', newOrder);

@@ -11,7 +11,7 @@ export class OrdersMicroserviceController {
   ) {}
   @EventPattern('createOrder')
   async createOrder(@Payload() createOrderDto: CreateOrderDto) {
-    console.log(createOrderDto);
+    //console.log(createOrderDto);
     const newOrder = await this.ordersService.createOrder(createOrderDto);
     if (newOrder) this.natsClient.emit('orderCreated', newOrder);
   }
