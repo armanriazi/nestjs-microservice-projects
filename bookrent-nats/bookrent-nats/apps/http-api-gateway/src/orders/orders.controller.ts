@@ -21,4 +21,27 @@ export class OrdersController {
     if (order) return {id, ...createOrderDto, createdAt,updatedAt};
     else throw new HttpException('Order Not Created', 404);     
   }
+
+  // @Get()
+  // async find() {
+  //   return this.queryBus.execute(new ListTaskQuery());
+  // }
+
+  // @Get(':id')
+  // async findById(@Param('id') id: number) {
+  //   return this.queryBus.execute(new ListByIdTaskQuery(id));
+  // }
+
+  // @Patch(':id/completed/:completed')
+  // async updateByCompleted(
+  //   @Param('id') id: number,
+  //   @Param('completed') completed: boolean,
+  // ) {
+  //   return this.commandBus.execute(new UpdateByCompletedCommand(id, completed));
+  // }
+
+  // @Delete(':id')
+  // async delete(@Param('id') id: number) {
+  //   return this.commandBus.execute(new DeleteTaskCommand(id));
+  //}
 }

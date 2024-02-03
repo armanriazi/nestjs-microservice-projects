@@ -24,7 +24,7 @@
     "@nestjs/cqrs": "^10.2.6",
     "@nestjs/microservices": "^10.2.10",
     "@nestjs/platform-express": "^10.0.0",
-    "@nestjs/typeorm": "^10.0.1",
+    "@nestjs/typeorm": "9.0.0-next.2",
     "nats": "^2.18.0",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",

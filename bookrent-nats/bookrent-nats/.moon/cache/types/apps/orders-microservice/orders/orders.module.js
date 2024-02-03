@@ -11,18 +11,17 @@ const common_1 = require("@nestjs/common");
 const orders_controller_1 = require("./orders.controller");
 const nats_client_module_1 = require("../nats-client/nats-client.module");
 const orders_service_1 = require("./orders.service");
-const typeorm_1 = require("@nestjs/typeorm");
-const Order_1 = require("../typeorm/entities/Order");
-const User_1 = require("../typeorm/entities/User");
 const cqrs_1 = require("@nestjs/cqrs");
 const handlers_1 = require("../commands/handlers");
+const orders_repository_1 = require("./orders.repository");
+const typeorm_ex_module_1 = require("../database/typeorm-ex.module");
 let OrdersModule = class OrdersModule {
 };
 exports.OrdersModule = OrdersModule;
 exports.OrdersModule = OrdersModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([User_1.User, Order_1.Order]),
+            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([orders_repository_1.OrdersRepository]),
             nats_client_module_1.NatsClientModule,
             cqrs_1.CqrsModule,
         ],

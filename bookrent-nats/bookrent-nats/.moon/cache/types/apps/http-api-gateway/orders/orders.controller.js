@@ -23,9 +23,10 @@ let OrdersController = class OrdersController {
     }
     async createOrder(createOrderDto) {
         const order = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'createOrder' }, createOrderDto));
-        const id = order.id;
-        const createdAt = order.createdAt;
-        const updatedAt = order.updatedAt;
+        const orderDto = order;
+        const id = orderDto.id;
+        const createdAt = orderDto.createdAt;
+        const updatedAt = orderDto.updatedAt;
         if (order)
             return { id, ...createOrderDto, createdAt, updatedAt };
         else
