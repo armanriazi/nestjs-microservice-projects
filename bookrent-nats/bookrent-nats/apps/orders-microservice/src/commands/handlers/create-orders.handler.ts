@@ -15,12 +15,15 @@ export class CreateOrdersHandler
   async execute(createOrderCommand: CreateOrdersCommand) {
     console.log(clc.yellowBright('Async CreateOrdersCommand...'));
     const { userId } = createOrderCommand;
-    const order = await this.orderService.createOrder({
-      userId,
-      ...createOrderCommand,
-    }); //this.publisher.mergeObjectContext()
-    // order.createOrder(userId);
-    // order.commit();
+
+    const order = this.publisher.mergeObjectContext(
+      await this.orderService.createOrder({
+        userId,
+        ...createOrderCommand,
+      }),
+    );
+    order.createOrder(userId);
+    order.commit();
     return order;
   }
 }

@@ -16,7 +16,10 @@ export class OrdersMicroserviceController {
     const newOrder = await this.commandBus.execute(
       new CreateOrdersCommand(data.userId, data.bookname, data.bookstateType),
     );
-    if (newOrder) this.natsClient.emit('orderCreated', newOrder);
+ 
+    if (newOrder) this.natsClient.emit('Order', newOrder);
+    // console.log('newOrder');
+    // console.log(newOrder);
     return newOrder;
   }
   // @Get()

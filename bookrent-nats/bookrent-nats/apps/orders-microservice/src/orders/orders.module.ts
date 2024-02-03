@@ -22,4 +22,3 @@ import { TypeOrmExModule } from 'src/database/typeorm-ex.module';
   providers: [OrdersService, ...CommandHandlers],
 })
 export class OrdersModule {}
-

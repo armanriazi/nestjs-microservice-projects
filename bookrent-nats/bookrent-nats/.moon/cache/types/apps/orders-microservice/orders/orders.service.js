@@ -18,6 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const microservices_1 = require("@nestjs/microservices");
 const orders_repository_1 = require("./orders.repository");
 const rxjs_1 = require("rxjs");
+const order_model_1 = require("./models/order.model");
 let OrdersService = class OrdersService {
     constructor(ordersRepository, natsClient) {
         this.ordersRepository = ordersRepository;
@@ -27,7 +28,8 @@ let OrdersService = class OrdersService {
         const user = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
         if (user) {
             const repoOrder = await this.ordersRepository.createOrder(createOrderCmd.bookname, createOrderCmd.bookstateType, user);
-            return repoOrder;
+            const result = new order_model_1.OrderModel(repoOrder.id);
+            return result;
         }
         return null;
     }

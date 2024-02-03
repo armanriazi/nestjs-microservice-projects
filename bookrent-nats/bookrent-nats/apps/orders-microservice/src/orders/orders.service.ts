@@ -6,6 +6,7 @@ import { OrdersRepository } from './orders.repository';
 import { CreateOrdersCommand, DeleteOrdersCommand } from 'src/commands/impl';
 import { lastValueFrom } from 'rxjs';
 import { User } from 'src/typeorm/entities/User';
+import { OrderModel } from './models/order.model';
 
 @Injectable()
 export class OrdersService {
@@ -17,19 +18,20 @@ export class OrdersService {
   async createOrder({
     userId,
     ...createOrderCmd
-  }: CreateOrdersCommand): Promise<Order> {
+  }: CreateOrdersCommand): Promise<OrderModel> {
     const user = await lastValueFrom<User>(
       this.natsClient.send({ cmd: 'getUserById' }, { userId }),
     );
 
     if (user) {
-      const repoOrder = await this.ordersRepository.createOrder(
+      const repoOrder: Order = await this.ordersRepository.createOrder(
         createOrderCmd.bookname,
         createOrderCmd.bookstateType,
         user,
       );
 
-      return repoOrder;
+      const result: OrderModel = new OrderModel(repoOrder.id);
+      return result;
     }
     return null;
   }

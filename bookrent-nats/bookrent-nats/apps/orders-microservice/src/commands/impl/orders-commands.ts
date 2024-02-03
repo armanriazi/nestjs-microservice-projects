@@ -4,6 +4,8 @@ export enum BookStateType {
   READY,
 }
 export class CreateOrdersCommand {
+  // public readonly updatedAt?: string;
+  // public readonly createAt?: string;
   constructor(
     public readonly userId: string,
     public readonly bookname: string,
