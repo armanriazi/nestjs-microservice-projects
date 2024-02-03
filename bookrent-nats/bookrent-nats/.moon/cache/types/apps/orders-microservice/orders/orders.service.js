@@ -47,7 +47,7 @@ let OrdersService = class OrdersService {
                 const orders = old_orders
                     ? old_orders.concat([finalCreatedTransitionOrder])
                     : [{ finalCreatedTransitionOrder }];
-                await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'inQueueOrderCreated' }, { id, username, email, displayName, orders }));
+                await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'inQueueOrderCreate' }, { id, username, email, displayName, orders }));
             }
         }
         for (let i = 0; i < rnd; i++) {

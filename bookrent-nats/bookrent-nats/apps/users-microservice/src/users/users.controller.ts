@@ -17,7 +17,6 @@ export class UsersMicroserviceController {
     return this.queryBus.execute(new GetUsersQuery());
   }
 
-
   @MessagePattern({ cmd: 'getUserById' })
   getUserById(@Payload() data) {
     const { userId } = data;
@@ -31,15 +30,17 @@ export class UsersMicroserviceController {
 
   @EventPattern('orderCreated')
   orderCreated(@Payload() data: any) {
+    console.info('------orderCreated2-----');
     console.info(data);
   }
   @MessagePattern({ cmd: 'createOrder' })
   createOrder(@Payload() data: any) {
+    console.info('------orderCreated1-----');
     console.info(data);
   }
-  //@EventPattern('inQueueOrderCreated')
-  @MessagePattern({ cmd: 'inQueueOrderCreated' })
-  inQueueOrderCreated(@Payload() data: any) {
+  //@EventPattern('inQueueOrderCreate')
+  @MessagePattern({ cmd: 'inQueueOrderCreate' })
+  inQueueOrderCreate(@Payload() data: any) {
     console.info(data);
   }
 }

@@ -14,14 +14,20 @@ const orders_service_1 = require("./orders.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const Order_1 = require("../typeorm/entities/Order");
 const User_1 = require("../typeorm/entities/User");
+const cqrs_1 = require("@nestjs/cqrs");
+const handlers_1 = require("../commands/handlers");
 let OrdersModule = class OrdersModule {
 };
 exports.OrdersModule = OrdersModule;
 exports.OrdersModule = OrdersModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([Order_1.Order, User_1.User]), nats_client_module_1.NatsClientModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([User_1.User, Order_1.Order]),
+            nats_client_module_1.NatsClientModule,
+            cqrs_1.CqrsModule,
+        ],
         controllers: [orders_controller_1.OrdersMicroserviceController],
-        providers: [orders_service_1.OrdersService],
+        providers: [orders_service_1.OrdersService, ...handlers_1.CommandHandlers],
     })
 ], OrdersModule);
 //# sourceMappingURL=orders.module.js.map

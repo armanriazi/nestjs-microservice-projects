@@ -1,9 +1,12 @@
 import { ClientProxy } from '@nestjs/microservices';
-import { CreateOrderDto } from './dtos/CreateOrder.dto';
-import { OrdersService } from './orders.service';
+import { CommandBus } from '@nestjs/cqrs';
 export declare class OrdersMicroserviceController {
     private natsClient;
-    private ordersService;
-    constructor(natsClient: ClientProxy, ordersService: OrdersService);
-    createOrder(createOrderDto: CreateOrderDto): Promise<void>;
+    private readonly commandBus;
+    constructor(natsClient: ClientProxy, commandBus: CommandBus);
+    createOrder(data: {
+        bookname: any;
+        bookstateType: any;
+        userId: any;
+    }): Promise<void>;
 }

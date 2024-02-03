@@ -5,10 +5,16 @@ import { OrdersService } from './orders.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Order } from 'src/typeorm/entities/Order';
 import { User } from 'src/typeorm/entities/User';
+import { CqrsModule } from '@nestjs/cqrs';
+import { CommandHandlers } from '../commands/handlers';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, User]), NatsClientModule],
+  imports: [
+    TypeOrmModule.forFeature([User, Order]),
+    NatsClientModule,
+    CqrsModule,
+  ],
   controllers: [OrdersMicroserviceController],
-  providers: [OrdersService],
+  providers: [OrdersService, ...CommandHandlers],
 })
 export class OrdersModule {}

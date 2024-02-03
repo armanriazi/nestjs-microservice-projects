@@ -35,12 +35,14 @@ let UsersMicroserviceController = class UsersMicroserviceController {
         return this.usersService.createUser(data);
     }
     orderCreated(data) {
+        console.info('------orderCreated2-----');
         console.info(data);
     }
     createOrder(data) {
+        console.info('------orderCreated1-----');
         console.info(data);
     }
-    inQueueOrderCreated(data) {
+    inQueueOrderCreate(data) {
         console.info(data);
     }
 };
@@ -80,12 +82,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersMicroserviceController.prototype, "createOrder", null);
 __decorate([
-    (0, microservices_1.MessagePattern)({ cmd: 'inQueueOrderCreated' }),
+    (0, microservices_1.MessagePattern)({ cmd: 'inQueueOrderCreate' }),
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], UsersMicroserviceController.prototype, "inQueueOrderCreated", null);
+], UsersMicroserviceController.prototype, "inQueueOrderCreate", null);
 exports.UsersMicroserviceController = UsersMicroserviceController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,

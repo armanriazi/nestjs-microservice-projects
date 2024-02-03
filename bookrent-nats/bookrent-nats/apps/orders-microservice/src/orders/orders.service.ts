@@ -2,12 +2,12 @@ import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from 'src/typeorm/entities/Order';
 import { Repository } from 'typeorm';
-import { CreateOrderDto } from './dtos/CreateOrder.dto';
 import { CreateTransitionOrder } from './dtos/CreateTransitionOrder.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { User } from 'src/typeorm/entities/User';
 import { randomInt } from 'crypto';
+import { CreateOrdersCommand } from 'src/commands/impl';
 
 @Injectable()
 export class OrdersService {
@@ -24,7 +24,7 @@ export class OrdersService {
     });
   }
 
-  async createOrder({ userId, ...createOrderDto }: CreateOrderDto) {
+  async createOrder({ userId, ...createOrderDto }: CreateOrdersCommand) {
     const user = await lastValueFrom<User>(
       this.natsClient.send({ cmd: 'getUserById' }, { userId }),
     );
@@ -53,7 +53,7 @@ export class OrdersService {
 
         await lastValueFrom<User>(
           this.natsClient.send(
-            { cmd: 'inQueueOrderCreated' },
+            { cmd: 'inQueueOrderCreate' },
             { id, username, email, displayName, orders },
           ),
         );

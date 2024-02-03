@@ -15,32 +15,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrdersMicroserviceController = void 0;
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
-const CreateOrder_dto_1 = require("./dtos/CreateOrder.dto");
-const orders_service_1 = require("./orders.service");
+const cqrs_1 = require("@nestjs/cqrs");
+const impl_1 = require("../commands/impl");
 let OrdersMicroserviceController = class OrdersMicroserviceController {
-    constructor(natsClient, ordersService) {
+    constructor(natsClient, commandBus) {
         this.natsClient = natsClient;
-        this.ordersService = ordersService;
+        this.commandBus = commandBus;
     }
-    async createOrder(createOrderDto) {
-        console.log(createOrderDto);
-        const newOrder = await this.ordersService.createOrder(createOrderDto);
+    async createOrder(data) {
+        console.log('\n----createOrderDto----\n');
+        console.log(data);
+        const newOrder = await this.commandBus.execute(new impl_1.CreateOrdersCommand(data.bookname, data.bookstateType, data.userId));
+        console.log(data);
+        console.log('\n----createOrderDto----\n');
         if (newOrder)
             this.natsClient.emit('orderCreated', newOrder);
     }
 };
 exports.OrdersMicroserviceController = OrdersMicroserviceController;
 __decorate([
-    (0, microservices_1.EventPattern)('createOrder'),
+    (0, microservices_1.MessagePattern)({ cmd: 'createOrder' }),
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [CreateOrder_dto_1.CreateOrderDto]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], OrdersMicroserviceController.prototype, "createOrder", null);
 exports.OrdersMicroserviceController = OrdersMicroserviceController = __decorate([
     (0, common_1.Controller)(),
     __param(0, (0, common_1.Inject)('NATS_SERVICE')),
     __metadata("design:paramtypes", [microservices_1.ClientProxy,
-        orders_service_1.OrdersService])
+        cqrs_1.CommandBus])
 ], OrdersMicroserviceController);
 //# sourceMappingURL=orders.controller.js.map
