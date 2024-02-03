@@ -32,6 +32,16 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "displayName", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'datetime', default: () => new Date() }),
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], User.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'datetime', default: () => new Date() }),
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], User.prototype, "updatedAt", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => Order_1.Order, (Order) => Order.user),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", Array)

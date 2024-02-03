@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsDateString, IsEmpty, IsEnum, IsISO8601, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export enum BookStateType {
   RENTED,
@@ -17,5 +17,15 @@ export class CreateOrderDto {
   @IsNotEmpty()
   userId: string;
 
+  @IsEmpty()
+  id: string;
   
+  // @IsISO8601({ strict: true })
+  // @Length(10, 10)
+  //@IsDateAndTime()
+  createdAt?: string;
+
+  
+  updatedAt?: string;
+
 }

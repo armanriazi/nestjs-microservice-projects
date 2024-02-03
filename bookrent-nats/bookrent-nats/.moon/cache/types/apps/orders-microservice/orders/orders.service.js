@@ -33,13 +33,12 @@ let OrdersService = class OrdersService {
             }, milliseconds);
         });
     }
-    async createOrder({ userId, ...createOrderDto }) {
+    async createOrder({ userId, ...createOrderCmd }) {
         const user = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
-        const rnd = (0, crypto_1.randomInt)(3, 20);
+        const rnd = (0, crypto_1.randomInt)(5, 20);
         if (rnd > 3) {
-            console.log(rnd);
             const { id, username, email, displayName, orders } = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
-            const { bookname } = { ...createOrderDto };
+            const { bookname } = { ...createOrderCmd };
             console.log('---QUEUE---');
             const old_orders = [orders];
             {
@@ -47,21 +46,31 @@ let OrdersService = class OrdersService {
                 const orders = old_orders
                     ? old_orders.concat([finalCreatedTransitionOrder])
                     : [{ finalCreatedTransitionOrder }];
-                await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'inQueueOrderCreate' }, { id, username, email, displayName, orders }));
+                const result = await (0, rxjs_1.lastValueFrom)(this.natsClient.emit('inQueueOrderCreate', {
+                    id,
+                    username,
+                    email,
+                    displayName,
+                    orders,
+                }));
+                console.log(result);
             }
+            for (let i = 0; i < rnd; i++) {
+                await this.delay(rnd * 100, i);
+            }
+            console.log('\n-----------End of delay---------\n');
         }
-        for (let i = 0; i < rnd; i++) {
-            await this.delay(rnd * 100, i);
-        }
-        console.log('\n-----------End of delay---------\n');
         if (user) {
             const newOrder = this.ordersRepository.create({
-                ...createOrderDto,
+                ...createOrderCmd,
                 user,
             });
             return this.ordersRepository.save(newOrder);
         }
         return null;
+    }
+    async deleteOrder({ id }) {
+        return id;
     }
 };
 exports.OrdersService = OrdersService;

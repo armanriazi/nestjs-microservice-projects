@@ -17,19 +17,17 @@ const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const cqrs_1 = require("@nestjs/cqrs");
 const impl_1 = require("../commands/impl");
+const CreateOrder_dto_1 = require("../orders/dtos/CreateOrder.dto");
 let OrdersMicroserviceController = class OrdersMicroserviceController {
     constructor(natsClient, commandBus) {
         this.natsClient = natsClient;
         this.commandBus = commandBus;
     }
     async createOrder(data) {
-        console.log('\n----createOrderDto----\n');
-        console.log(data);
-        const newOrder = await this.commandBus.execute(new impl_1.CreateOrdersCommand(data.bookname, data.bookstateType, data.userId));
-        console.log(data);
-        console.log('\n----createOrderDto----\n');
+        const newOrder = await this.commandBus.execute(new impl_1.CreateOrdersCommand(data.userId, data.bookname, data.bookstateType));
         if (newOrder)
             this.natsClient.emit('orderCreated', newOrder);
+        return newOrder;
     }
 };
 exports.OrdersMicroserviceController = OrdersMicroserviceController;
@@ -37,7 +35,7 @@ __decorate([
     (0, microservices_1.MessagePattern)({ cmd: 'createOrder' }),
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [CreateOrder_dto_1.CreateOrderDto]),
     __metadata("design:returntype", Promise)
 ], OrdersMicroserviceController.prototype, "createOrder", null);
 exports.OrdersMicroserviceController = OrdersMicroserviceController = __decorate([

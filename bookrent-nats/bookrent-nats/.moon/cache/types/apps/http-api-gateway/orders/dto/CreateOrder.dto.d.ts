@@ -7,4 +7,7 @@ export declare class CreateOrderDto {
     bookname: string;
     bookstateType: BookStateType;
     userId: string;
+    id: string;
+    createdAt?: string;
+    updatedAt?: string;
 }

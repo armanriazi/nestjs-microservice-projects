@@ -7,7 +7,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 import { User } from 'src/typeorm/entities/User';
 import { randomInt } from 'crypto';
-import { CreateOrdersCommand } from 'src/commands/impl';
+import { CreateOrdersCommand, DeleteOrdersCommand } from 'src/commands/impl';
 
 @Injectable()
 export class OrdersService {
@@ -24,23 +24,19 @@ export class OrdersService {
     });
   }
 
-  async createOrder({ userId, ...createOrderDto }: CreateOrdersCommand) {
+  async createOrder({ userId, ...createOrderCmd }: CreateOrdersCommand) {
     const user = await lastValueFrom<User>(
       this.natsClient.send({ cmd: 'getUserById' }, { userId }),
     );
 
-    const rnd = randomInt(3, 20);
+    const rnd = randomInt(5, 20);
 
     if (rnd > 3) {
-      console.log(rnd);
-
-      //console.log('----TMP-----');
-      //console.log(tmp);
       const { id, username, email, displayName, orders } =
         await lastValueFrom<User>(
           this.natsClient.send({ cmd: 'getUserById' }, { userId }),
         );
-      const { bookname } = { ...createOrderDto };
+      const { bookname } = { ...createOrderCmd };
 
       console.log('---QUEUE---');
 
@@ -51,30 +47,45 @@ export class OrdersService {
           ? old_orders.concat([finalCreatedTransitionOrder])
           : [{ finalCreatedTransitionOrder }];
 
-        await lastValueFrom<User>(
-          this.natsClient.send(
-            { cmd: 'inQueueOrderCreate' },
-            { id, username, email, displayName, orders },
-          ),
+        const result = await lastValueFrom<User>(
+          this.natsClient.emit('inQueueOrderCreate', {
+            id,
+            username,
+            email,
+            displayName,
+            orders,
+          }),
         );
+        console.log(result);
       }
-    }
 
-    for (let i = 0; i < rnd; i++) {
-      // await is converting Promise<number> into number
-      await this.delay(rnd * 100, i);
+      for (let i = 0; i < rnd; i++) {
+        // await is converting Promise<number> into number
+        await this.delay(rnd * 100, i);
+      }
+      console.log('\n-----------End of delay---------\n');
     }
-
-    console.log('\n-----------End of delay---------\n');
 
     if (user) {
       const newOrder = this.ordersRepository.create({
-        ...createOrderDto,
+        ...createOrderCmd,
         user,
       });
-      //console.log(newOrder);
       return this.ordersRepository.save(newOrder);
     }
     return null;
+  }
+
+  async deleteOrder({ id }: DeleteOrdersCommand) {
+    // const order = await lastValueFrom<Order>(
+    //   this.natsClient.send({ cmd: 'getOrderById' }, { id }),
+    // );
+    // if (order) {
+    //   const deletedOrder = this.ordersRepository.delete({
+    //     order,
+    //   });
+    //   return this.ordersRepository.save(deletedOrder);
+    // }
+    return id;
   }
 }

@@ -4,5 +4,7 @@ export declare class User {
     username: string;
     email: string;
     displayName?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
     orders: Order[];
 }

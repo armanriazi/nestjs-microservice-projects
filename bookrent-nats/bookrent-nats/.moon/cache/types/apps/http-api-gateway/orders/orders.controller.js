@@ -16,12 +16,20 @@ exports.OrdersController = void 0;
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const CreateOrder_dto_1 = require("./dto/CreateOrder.dto");
+const rxjs_1 = require("rxjs");
 let OrdersController = class OrdersController {
     constructor(natsClient) {
         this.natsClient = natsClient;
     }
     async createOrder(createOrderDto) {
-        return await this.natsClient.send({ cmd: 'createOrder' }, createOrderDto);
+        const order = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'createOrder' }, createOrderDto));
+        const id = order.id;
+        const createdAt = order.createdAt;
+        const updatedAt = order.updatedAt;
+        if (order)
+            return { id, ...createOrderDto, createdAt, updatedAt };
+        else
+            throw new common_1.HttpException('Order Not Created', 404);
     }
 };
 exports.OrdersController = OrdersController;

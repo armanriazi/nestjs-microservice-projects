@@ -18,10 +18,11 @@ export class UsersService {
     });
   }
   async getUserById(user: GetUserByIdQuery): Promise<User> {
-    return await this.usersRepository.findOne({
+    const result = await this.usersRepository.findOne({
       where: { id: user.userId },
       relations: ['orders'],
     });
+    return result;
   }
 
   //* Insert */

@@ -4,6 +4,8 @@ import {
   Column,
   OneToMany,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Order } from './Order';
 
@@ -24,4 +26,12 @@ export class User {
   @OneToMany(() => Order, (Order) => Order.user)
   @JoinColumn()
   orders: Order[];
+
+  @Column({ type: 'datetime', default: () => new Date() })
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @Column({ type: 'datetime', default: () => new Date() })
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

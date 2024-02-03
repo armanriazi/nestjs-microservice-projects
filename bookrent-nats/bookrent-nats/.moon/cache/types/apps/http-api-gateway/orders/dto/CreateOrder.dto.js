@@ -33,4 +33,8 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateOrderDto.prototype, "userId", void 0);
+__decorate([
+    (0, class_validator_1.IsEmpty)(),
+    __metadata("design:type", String)
+], CreateOrderDto.prototype, "id", void 0);
 //# sourceMappingURL=CreateOrder.dto.js.map

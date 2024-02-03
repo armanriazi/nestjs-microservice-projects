@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from './User';
 
 export enum BookStateType {
@@ -21,6 +28,17 @@ export class Order {
     default: BookStateType.READY,
   })
   bookstateType: BookStateType;
+
+  // @Column({ default: false })
+  // completed?: boolean;
+
+  @Column({ type: 'datetime', default: () => new Date() })
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @Column({ type: 'datetime', default: () => new Date() })
+  @UpdateDateColumn()
+  updatedAt?: Date;
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User;

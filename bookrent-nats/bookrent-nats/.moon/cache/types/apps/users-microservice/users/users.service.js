@@ -27,10 +27,11 @@ let UsersService = class UsersService {
         });
     }
     async getUserById(user) {
-        return await this.usersRepository.findOne({
+        const result = await this.usersRepository.findOne({
             where: { id: user.userId },
             relations: ['orders'],
         });
+        return result;
     }
     async createUser(createUserDto) {
         const newUser = this.usersRepository.create(createUserDto);

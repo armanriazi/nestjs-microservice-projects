@@ -8,5 +8,7 @@ export declare class Order {
     id: string;
     bookname: string;
     bookstateType: BookStateType;
+    createdAt?: Date;
+    updatedAt?: Date;
     user: User;
 }

@@ -9,6 +9,5 @@ export declare class UsersMicroserviceController {
     getUserById(data: any): Promise<any>;
     createUser(data: CreateUserDto): Promise<import("../typeorm/entities/User").User>;
     orderCreated(data: any): void;
-    createOrder(data: any): void;
     inQueueOrderCreate(data: any): void;
 }

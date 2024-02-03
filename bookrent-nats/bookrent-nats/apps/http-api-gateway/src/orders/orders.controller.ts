@@ -1,6 +1,7 @@
-import { Controller, Inject, Post, Body } from '@nestjs/common';
+import { Controller, Inject, Post, Body, HttpException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateOrderDto } from './dto/CreateOrder.dto';
+import { lastValueFrom } from 'rxjs';
 
 @Controller('orders')
 export class OrdersController {
@@ -8,6 +9,15 @@ export class OrdersController {
 
   @Post()
   async createOrder(@Body() createOrderDto: CreateOrderDto) {
-    return await this.natsClient.send({ cmd: 'createOrder' }, createOrderDto);            
+
+    const order = await lastValueFrom(
+      this.natsClient.send({ cmd: 'createOrder' }, createOrderDto),
+    );
+
+    const id =(order as CreateOrderDto).id;
+    const createdAt =(order as CreateOrderDto).createdAt;
+    const updatedAt =(order as CreateOrderDto).updatedAt;
+    if (order) return {id, ...createOrderDto, createdAt,updatedAt};
+    else throw new HttpException('Order Not Created', 404);     
   }
 }

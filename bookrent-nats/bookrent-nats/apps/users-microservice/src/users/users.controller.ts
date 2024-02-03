@@ -30,16 +30,10 @@ export class UsersMicroserviceController {
 
   @EventPattern('orderCreated')
   orderCreated(@Payload() data: any) {
-    console.info('------orderCreated2-----');
     console.info(data);
   }
-  @MessagePattern({ cmd: 'createOrder' })
-  createOrder(@Payload() data: any) {
-    console.info('------orderCreated1-----');
-    console.info(data);
-  }
-  //@EventPattern('inQueueOrderCreate')
-  @MessagePattern({ cmd: 'inQueueOrderCreate' })
+
+  @EventPattern('inQueueOrderCreate')
   inQueueOrderCreate(@Payload() data: any) {
     console.info(data);
   }
