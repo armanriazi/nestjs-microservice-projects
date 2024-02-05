@@ -19,16 +19,49 @@ const microservices_1 = require("@nestjs/microservices");
 const orders_repository_1 = require("./orders.repository");
 const rxjs_1 = require("rxjs");
 const order_model_1 = require("./models/order.model");
+const CreateTransitionOrder_dto_1 = require("./dtos/CreateTransitionOrder.dto");
+const crypto_1 = require("crypto");
 let OrdersService = class OrdersService {
     constructor(ordersRepository, natsClient) {
         this.ordersRepository = ordersRepository;
         this.natsClient = natsClient;
     }
+    delay(milliseconds, count) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(count);
+            }, milliseconds);
+        });
+    }
     async createOrder({ userId, ...createOrderCmd }) {
         const user = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
+        const rnd = (0, crypto_1.randomInt)(0, 10);
+        if (rnd > 3) {
+            const { id, username, email, displayName, orders } = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
+            const { bookname } = { ...createOrderCmd };
+            console.log('\n---QUEUE---');
+            const old_orders = [orders];
+            {
+                const finalCreatedTransitionOrder = new CreateTransitionOrder_dto_1.CreateTransitionOrder(bookname);
+                const orders = old_orders
+                    ? old_orders.concat([finalCreatedTransitionOrder])
+                    : [{ finalCreatedTransitionOrder }];
+                await (0, rxjs_1.lastValueFrom)(this.natsClient.emit('inQueueOrderCreate', {
+                    id,
+                    username,
+                    email,
+                    displayName,
+                    orders,
+                }));
+            }
+            for (let i = 0; i < rnd; i++) {
+                await this.delay(rnd * 100, i);
+            }
+            console.log('\n---End of delay---');
+        }
         if (user) {
             const repoOrder = await this.ordersRepository.createOrder(createOrderCmd.bookname, createOrderCmd.bookstateType, user);
-            const result = new order_model_1.OrderModel(repoOrder.id);
+            const result = new order_model_1.OrderModel(repoOrder.id, repoOrder.createdAt, repoOrder.updatedAt);
             return result;
         }
         return null;

@@ -12,14 +12,8 @@ export class OrdersController {
 
     const order = await lastValueFrom(
       this.natsClient.send({ cmd: 'createOrder' }, createOrderDto),
-    );
-    
-    const orderDto = order as CreateOrderDto;
-
-    const id = orderDto.id;
-    const createdAt =  new Date();
-    const updatedAt =  new Date();
-    if (order) return {id, ...createOrderDto, createdAt,updatedAt};
+    );               
+    if (order) return {...order, ...createOrderDto};
     else throw new HttpException('Order Not Created', 404);     
   }
 

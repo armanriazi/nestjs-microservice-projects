@@ -19,6 +19,7 @@ const CreateUser_dto_1 = require("./dtos/CreateUser.dto");
 const users_service_1 = require("./users.service");
 const cqrs_1 = require("@nestjs/cqrs");
 const impl_1 = require("../queries/impl");
+const order_model_1 = require("../models/order.model");
 let UsersMicroserviceController = class UsersMicroserviceController {
     constructor(usersService, queryBus) {
         this.usersService = usersService;
@@ -27,18 +28,20 @@ let UsersMicroserviceController = class UsersMicroserviceController {
     async findUserAll() {
         return this.queryBus.execute(new impl_1.GetUsersQuery());
     }
-    getUserById(data) {
+    async getUserById(data) {
         const { userId } = data;
-        return this.queryBus.execute(new impl_1.GetUserByIdQuery(userId));
+        return this.dataInqueue
+            ? this.dataInqueue
+            : await this.queryBus.execute(new impl_1.GetUserByIdQuery(userId));
     }
     createUser(data) {
         return this.usersService.createUser(data);
     }
     orderCreated(data) {
-        console.info(data);
+        this.dataInqueue = null;
     }
     inQueueOrderCreate(data) {
-        console.info(data);
+        this.dataInqueue = data;
     }
 };
 exports.UsersMicroserviceController = UsersMicroserviceController;
@@ -53,7 +56,7 @@ __decorate([
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsersMicroserviceController.prototype, "getUserById", null);
 __decorate([
     (0, microservices_1.MessagePattern)({ cmd: 'createUser' }),
@@ -73,7 +76,7 @@ __decorate([
     (0, microservices_1.EventPattern)('inQueueOrderCreate'),
     __param(0, (0, microservices_1.Payload)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [order_model_1.OrderModel]),
     __metadata("design:returntype", void 0)
 ], UsersMicroserviceController.prototype, "inQueueOrderCreate", null);
 exports.UsersMicroserviceController = UsersMicroserviceController = __decorate([

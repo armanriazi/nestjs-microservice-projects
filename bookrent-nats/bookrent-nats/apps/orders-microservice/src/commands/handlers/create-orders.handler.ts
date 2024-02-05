@@ -22,8 +22,8 @@ export class CreateOrdersHandler
         ...createOrderCommand,
       }),
     );
-    order.createOrder(userId);
-    order.commit();
+    order!.createOrder(userId);
+    order!.commit();
     return order;
   }
 }

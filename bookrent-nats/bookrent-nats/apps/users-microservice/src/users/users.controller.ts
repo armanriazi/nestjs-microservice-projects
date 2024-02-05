@@ -2,11 +2,14 @@ import { Controller } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UsersService } from './users.service';
-import { QueryBus } from '@nestjs/cqrs';
+import {  QueryBus } from '@nestjs/cqrs';
 import { GetUsersQuery, GetUserByIdQuery } from '../queries/impl';
+import { OrderModel } from 'src/models/order.model';
 
 @Controller()
 export class UsersMicroserviceController {
+  private dataInqueue: OrderModel;
+
   constructor(
     private usersService: UsersService,
     private readonly queryBus: QueryBus,
@@ -18,9 +21,14 @@ export class UsersMicroserviceController {
   }
 
   @MessagePattern({ cmd: 'getUserById' })
-  getUserById(@Payload() data) {
+  async getUserById(@Payload() data) {
     const { userId } = data;
-    return this.queryBus.execute(new GetUserByIdQuery(userId));
+
+    return this.dataInqueue
+      ? this.dataInqueue
+      : await this.queryBus.execute(new GetUserByIdQuery(userId));
+    // const userResult =
+    // return userResult;
   }
 
   @MessagePattern({ cmd: 'createUser' })
@@ -29,12 +37,13 @@ export class UsersMicroserviceController {
   }
 
   @EventPattern('orderCreated')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   orderCreated(@Payload() data: any) {
-    console.info(data);
+    this.dataInqueue = null;
   }
 
   @EventPattern('inQueueOrderCreate')
-  inQueueOrderCreate(@Payload() data: any) {
-    console.info(data);
+  inQueueOrderCreate(@Payload() data: OrderModel) {
+    this.dataInqueue = data;
   }
 }

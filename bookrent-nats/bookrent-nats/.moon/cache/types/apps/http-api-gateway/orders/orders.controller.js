@@ -23,12 +23,8 @@ let OrdersController = class OrdersController {
     }
     async createOrder(createOrderDto) {
         const order = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'createOrder' }, createOrderDto));
-        const orderDto = order;
-        const id = orderDto.id;
-        const createdAt = new Date();
-        const updatedAt = new Date();
         if (order)
-            return { id, ...createOrderDto, createdAt, updatedAt };
+            return { ...order, ...createOrderDto };
         else
             throw new common_1.HttpException('Order Not Created', 404);
     }

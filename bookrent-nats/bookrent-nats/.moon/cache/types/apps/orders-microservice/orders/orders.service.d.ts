@@ -6,6 +6,7 @@ export declare class OrdersService {
     private readonly ordersRepository;
     private natsClient;
     constructor(ordersRepository: OrdersRepository, natsClient: ClientProxy);
+    delay(milliseconds: number, count: number): Promise<number>;
     createOrder({ userId, ...createOrderCmd }: CreateOrdersCommand): Promise<OrderModel>;
     deleteOrder({ id }: DeleteOrdersCommand): Promise<any>;
 }

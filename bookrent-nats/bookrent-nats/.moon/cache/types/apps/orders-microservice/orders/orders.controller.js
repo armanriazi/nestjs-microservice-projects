@@ -26,9 +26,7 @@ let OrdersMicroserviceController = class OrdersMicroserviceController {
     async createOrder(data) {
         const newOrder = await this.commandBus.execute(new impl_1.CreateOrdersCommand(data.userId, data.bookname, data.bookstateType));
         if (newOrder)
-            this.natsClient.emit('Order', newOrder);
-        console.log('newOrder');
-        console.log(newOrder);
+            this.natsClient.emit('orderCreated', newOrder);
         return newOrder;
     }
 };
