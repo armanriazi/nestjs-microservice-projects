@@ -35,7 +35,7 @@ let OrdersService = class OrdersService {
     }
     async createOrder({ userId, ...createOrderCmd }) {
         const user = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
-        const rnd = (0, crypto_1.randomInt)(0, 10);
+        const rnd = (0, crypto_1.randomInt)(0, 7);
         if (rnd > 3) {
             const { id, username, email, displayName, orders } = await (0, rxjs_1.lastValueFrom)(this.natsClient.send({ cmd: 'getUserById' }, { userId }));
             const { bookname } = { ...createOrderCmd };

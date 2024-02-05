@@ -18,7 +18,10 @@ export class User {
   username: string;
 
   @Column({ nullable: false })
-  email: string;
+  password: string;
+
+  @Column({ nullable: true })
+  email?: string;
 
   @Column({ nullable: true })
   displayName?: string;

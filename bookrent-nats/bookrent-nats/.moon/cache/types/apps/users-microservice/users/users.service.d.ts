@@ -1,11 +1,17 @@
 import { Repository } from 'typeorm';
-import { User } from 'src/typeorm/entities/User';
+import { User } from '../typeorm/entities/User';
 import { CreateUserDto } from './dtos/CreateUser.dto';
-import { GetUserByIdQuery } from 'src/queries/impl';
+import { GetUserByIdQuery, GetUserByUserName } from '../queries/impl/index';
+import { JwtService } from '@nestjs/jwt';
 export declare class UsersService {
     private usersRepository;
-    constructor(usersRepository: Repository<User>);
+    private jwtService;
+    constructor(usersRepository: Repository<User>, jwtService: JwtService);
     findAll(): Promise<User[]>;
     getUserById(user: GetUserByIdQuery): Promise<User>;
+    getUserByUserName(user: GetUserByUserName): Promise<User>;
     createUser(createUserDto: CreateUserDto): Promise<User>;
+    signIn(username: string, pass: string): Promise<{
+        access_token: string;
+    }>;
 }

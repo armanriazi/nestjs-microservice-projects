@@ -1,1 +1,1 @@
-{"lastHash":"f74d518d4d1e429f3b9b762d5c2b919358bc887a9e26ffdb48b80fcf87e7112e","projects":{"http-api-gateway":"apps/http-api-gateway","orders-microservice":"apps/orders-microservice","users-microservice":"apps/users-microservice"}}
+{"lastHash":"e78112f8ee202a3f2cedf86eac4a8bc80f77caaffd8fbcd171023c754eda44d2","projects":{"http-api-gateway":"apps/http-api-gateway","orders-microservice":"apps/orders-microservice","auth-microservice":"apps/auth-microservice","users-microservice":"apps/users-microservice"}}

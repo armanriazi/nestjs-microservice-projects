@@ -14,7 +14,9 @@ versionConstraint: '>=1.16.0'
 projects:
   http-api-gateway: 'apps/http-api-gateway'
   orders-microservice: 'apps/orders-microservice'
+  auth-microservice: 'apps/auth-microservice'
   users-microservice: 'apps/users-microservice'
+  
 
 # Configures the version control system to utilize within the workspace. A VCS
 # is required for determining touched (added, modified, etc) files, calculating file hashes,

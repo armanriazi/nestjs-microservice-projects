@@ -8,6 +8,11 @@ services:
     command: npm run start:dev
     environment:
       - PORT=3000
+  auth_microservice:
+    build: ./auth-microservice
+    volumes:
+      - ./auth-microservice/src:/usr/src/app/src
+    command: npm run start:dev      
   users_microservice:
     build: ./users-microservice
     volumes:

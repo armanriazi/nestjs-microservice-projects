@@ -9,6 +9,9 @@
       "path": "apps/orders-microservice"
     },
     {
+      "path": "apps/auth-microservice"
+    },
+    {
       "path": "apps/users-microservice"
     }
   ]

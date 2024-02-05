@@ -2,9 +2,9 @@ import { Controller } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UsersService } from './users.service';
-import {  QueryBus } from '@nestjs/cqrs';
+import { QueryBus } from '@nestjs/cqrs';
 import { GetUsersQuery, GetUserByIdQuery } from '../queries/impl';
-import { OrderModel } from 'src/models/order.model';
+import { OrderModel } from '../models/order.model';
 
 @Controller()
 export class UsersMicroserviceController {
@@ -45,5 +45,10 @@ export class UsersMicroserviceController {
   @EventPattern('inQueueOrderCreate')
   inQueueOrderCreate(@Payload() data: OrderModel) {
     this.dataInqueue = data;
+  }
+
+  @EventPattern('authSignined')
+  authSignined(@Payload() data: any) {
+    console.log(data);
   }
 }

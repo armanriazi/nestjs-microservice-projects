@@ -25,11 +25,14 @@
     "task:app": "moon run :task --query 'projectType=application'",
     "http-api-gateway": "moon run http-api-gateway:build",
     "users-microservice": "moon run users-microservice:build",
+    "auth-microservice": "moon run auth-microservice:build",
     "orders-microservice": "moon run orders-microservice:build",
     "http-api-gateway:dev": "moon run http-api-gateway:dev",
     "users-microservice:dev": "moon run http-api-gateway:dev",
+    "auth-microservice:dev": "moon run http-api-gateway:dev",
     "orders-microservice:dev": "moon run http-api-gateway:dev",
     "http-api-gateway:m:graph": "moon project-graph http-api-gateway",
+    "auth-microservice:m:graph": "moon project-graph auth-microservice",
     "users-microservice:m:graph": "moon project-graph users-microservice",
     "orders-microservice:m:graph": "moon project-graph orders-microservice",
     "typescript": "moon run :build --query \"language=typescript\""
@@ -60,8 +63,5 @@
   "packageManager": "pnpm@8.9.2",
   "engines": {
     "node": "18.18.2"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.8.0"
   }
 }

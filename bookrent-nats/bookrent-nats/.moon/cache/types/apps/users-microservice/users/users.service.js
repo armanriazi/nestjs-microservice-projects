@@ -17,9 +17,12 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const User_1 = require("../typeorm/entities/User");
 const common_1 = require("@nestjs/common");
+const index_1 = require("../queries/impl/index");
+const jwt_1 = require("@nestjs/jwt");
 let UsersService = class UsersService {
-    constructor(usersRepository) {
+    constructor(usersRepository, jwtService) {
         this.usersRepository = usersRepository;
+        this.jwtService = jwtService;
     }
     async findAll() {
         return this.usersRepository.find({
@@ -33,15 +36,32 @@ let UsersService = class UsersService {
         });
         return result;
     }
+    async getUserByUserName(user) {
+        const result = await this.usersRepository.findOne({
+            where: { username: user.username },
+        });
+        return result;
+    }
     async createUser(createUserDto) {
         const newUser = this.usersRepository.create(createUserDto);
         return await this.usersRepository.save(newUser);
+    }
+    async signIn(username, pass) {
+        const user = await this.getUserByUserName(new index_1.GetUserByUserName(username));
+        if (user?.password !== pass) {
+            throw new common_1.UnauthorizedException();
+        }
+        const payload = { username: user.username, sub: user.id };
+        return {
+            access_token: await this.jwtService.signAsync(payload),
+        };
     }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(User_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        jwt_1.JwtService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

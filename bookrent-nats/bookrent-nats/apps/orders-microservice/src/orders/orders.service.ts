@@ -34,7 +34,7 @@ export class OrdersService {
       this.natsClient.send({ cmd: 'getUserById' }, { userId }),
     );
 
-    const rnd = randomInt(0, 10);
+    const rnd = randomInt(0, 7);
 
     if (rnd > 3) {
       const { id, username, email, displayName, orders } =
