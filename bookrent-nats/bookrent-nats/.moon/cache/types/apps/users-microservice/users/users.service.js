@@ -17,12 +17,17 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const User_1 = require("../typeorm/entities/User");
 const common_1 = require("@nestjs/common");
-const index_1 = require("../queries/impl/index");
 const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
+const argon2 = require("argon2");
 let UsersService = class UsersService {
-    constructor(usersRepository, jwtService) {
+    constructor(usersRepository, jwtService, configService) {
         this.usersRepository = usersRepository;
         this.jwtService = jwtService;
+        this.configService = configService;
+    }
+    hashData(data) {
+        return argon2.hash(data);
     }
     async findAll() {
         return this.usersRepository.find({
@@ -43,18 +48,14 @@ let UsersService = class UsersService {
         return result;
     }
     async createUser(createUserDto) {
-        const newUser = this.usersRepository.create(createUserDto);
+        const newUser = this.usersRepository.create({
+            ...createUserDto,
+        });
         return await this.usersRepository.save(newUser);
     }
-    async signIn(username, pass) {
-        const user = await this.getUserByUserName(new index_1.GetUserByUserName(username));
-        if (user?.password !== pass) {
-            throw new common_1.UnauthorizedException();
-        }
-        const payload = { username: user.username, sub: user.id };
-        return {
-            access_token: await this.jwtService.signAsync(payload),
-        };
+    async update(id, updateUserDto) {
+        const updatedUser = this.usersRepository.update(id, updateUserDto);
+        return await this.usersRepository.save((await updatedUser).raw);
     }
 };
 exports.UsersService = UsersService;
@@ -62,6 +63,7 @@ exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(User_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        config_1.ConfigService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

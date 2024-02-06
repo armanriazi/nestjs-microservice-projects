@@ -17,7 +17,6 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
-
     return await this.natsClient.send({ cmd: 'createUser' }, createUserDto);    
   }
 
@@ -25,7 +24,7 @@ export class UsersController {
   async getUserById(@Param('id') id: string) {
     const user = await lastValueFrom(
       this.natsClient.send({ cmd: 'getUserById' }, { userId: id }),
-    );
+    );    
     if (user) return user;
     else throw new HttpException('User Not Found', 404);
   }
@@ -38,4 +37,16 @@ export class UsersController {
     if (user) return user;
     else throw new HttpException('User Not Found', 404);
   }
+
+  // @UseGuards(AccessTokenGuard)
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  //   return this.usersService.update(id, updateUserDto);
+  // }
+
+  // @UseGuards(AccessTokenGuard)
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.usersService.remove(id);
+  // }
 }

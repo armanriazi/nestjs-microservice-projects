@@ -20,4 +20,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(256)
+  refreshToken: string;
 }

@@ -8,4 +8,5 @@ export declare class User {
     orders: Order[];
     createdAt?: Date;
     updatedAt?: Date;
+    refreshToken?: string;
 }

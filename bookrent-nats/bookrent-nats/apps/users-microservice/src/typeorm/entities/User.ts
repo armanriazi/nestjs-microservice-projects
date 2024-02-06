@@ -37,4 +37,7 @@ export class User {
   @Column({ type: 'datetime', default: () => new Date() })
   @UpdateDateColumn()
   updatedAt?: Date;
+
+  @Column({ nullable: true })
+  refreshToken?: string;
 }

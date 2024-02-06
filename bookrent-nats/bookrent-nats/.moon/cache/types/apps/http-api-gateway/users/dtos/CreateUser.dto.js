@@ -31,4 +31,10 @@ __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(256),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "refreshToken", void 0);
 //# sourceMappingURL=CreateUser.dto.js.map

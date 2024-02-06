@@ -43,9 +43,6 @@ let UsersMicroserviceController = class UsersMicroserviceController {
     inQueueOrderCreate(data) {
         this.dataInqueue = data;
     }
-    authSignined(data) {
-        console.log(data);
-    }
 };
 exports.UsersMicroserviceController = UsersMicroserviceController;
 __decorate([
@@ -82,13 +79,6 @@ __decorate([
     __metadata("design:paramtypes", [order_model_1.OrderModel]),
     __metadata("design:returntype", void 0)
 ], UsersMicroserviceController.prototype, "inQueueOrderCreate", null);
-__decorate([
-    (0, microservices_1.EventPattern)('authSignined'),
-    __param(0, (0, microservices_1.Payload)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], UsersMicroserviceController.prototype, "authSignined", null);
 exports.UsersMicroserviceController = UsersMicroserviceController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [users_service_1.UsersService,

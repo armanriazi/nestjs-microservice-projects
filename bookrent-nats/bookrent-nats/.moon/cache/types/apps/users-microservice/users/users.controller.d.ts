@@ -12,5 +12,4 @@ export declare class UsersMicroserviceController {
     createUser(data: CreateUserDto): Promise<import("../typeorm/entities/User").User>;
     orderCreated(data: any): void;
     inQueueOrderCreate(data: OrderModel): void;
-    authSignined(data: any): void;
 }

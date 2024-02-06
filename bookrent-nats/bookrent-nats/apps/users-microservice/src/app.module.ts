@@ -14,7 +14,7 @@ import { Order } from './typeorm/entities/Order';
       entities: [Order, User],
       synchronize: true,
       username: 'postgres',
-      password: 'postgres',
+      password: process.env.DB_PASSWORD,
     }),
     UsersModule,
   ],

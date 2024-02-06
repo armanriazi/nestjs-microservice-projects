@@ -6,4 +6,6 @@ export class CreateUserDto {
   displayName?: string;
 
   email?: string;
+
+  refreshToken?: string;
 }

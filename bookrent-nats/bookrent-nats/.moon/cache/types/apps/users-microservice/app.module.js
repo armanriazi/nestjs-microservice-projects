@@ -26,7 +26,7 @@ exports.AppModule = AppModule = __decorate([
                 entities: [Order_1.Order, User_1.User],
                 synchronize: true,
                 username: 'postgres',
-                password: 'postgres',
+                password: process.env.DB_PASSWORD,
             }),
             users_module_1.UsersModule,
         ],

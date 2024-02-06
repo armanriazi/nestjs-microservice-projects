@@ -1,8 +1,9 @@
-import { Controller, Inject, Post, Body, HttpException, Get , Request, HttpCode, HttpStatus } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Controller, Inject, Post, Body, HttpException, Get , Request, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { ClientProxy, Payload } from '@nestjs/microservices';
 import { SignInDto } from './dto/auth.dto';
 import { lastValueFrom } from 'rxjs';
 import { Public } from './decorators/public.decorator';
+import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -10,18 +11,25 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('login')
-  async signInAuth(@Body() signInDto: SignInDto) {
-
+  async signIn(@Body() req) {   
     const signin = await lastValueFrom(
-      this.natsClient.send({ cmd: 'login' }, signInDto),
-    );               
+      this.natsClient.send({ cmd: 'login' }, req),
+    );     
     if (signin) return {...signin};
     else throw new HttpException('SignIn Failed', 404);       
   }
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  async signOut(@Body() req) {   
+    const signin = await lastValueFrom(
+      this.natsClient.send({ cmd: 'logout' }, req),
+    );     
+    if (signin) return {...signin};
+    else throw new HttpException('SignIn Failed', 404);       
   }
 
   // @Get()

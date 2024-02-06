@@ -16,14 +16,38 @@ const Order_1 = require("../typeorm/entities/Order");
 const cqrs_1 = require("@nestjs/cqrs");
 const handlers_1 = require("../queries/handlers");
 const jwt_1 = require("@nestjs/jwt");
+const passport_1 = require("@nestjs/passport");
+const accessToken_strategy_1 = require("../auth/strategies/accessToken.strategy");
+const refreshToken_strategy_1 = require("../auth/strategies/refreshToken.strategy");
+const constants_1 = require("../auth/constants");
+const config_1 = require("@nestjs/config");
+const auth_service_1 = require("../auth/auth.service");
+const auth_controller_1 = require("../auth/auth.controller");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([User_1.User, Order_1.Order]), cqrs_1.CqrsModule],
-        controllers: [users_controller_1.UsersMicroserviceController],
-        providers: [jwt_1.JwtService, users_service_1.UsersService, ...handlers_1.QueryHandlers],
+        imports: [
+            passport_1.PassportModule,
+            jwt_1.JwtModule.register({
+                global: true,
+                secret: constants_1.jwtConstants.secret,
+                signOptions: { expiresIn: '30s' },
+            }),
+            typeorm_1.TypeOrmModule.forFeature([User_1.User, Order_1.Order]),
+            cqrs_1.CqrsModule,
+        ],
+        controllers: [users_controller_1.UsersMicroserviceController, auth_controller_1.AuthMicroserviceController],
+        providers: [
+            users_service_1.UsersService,
+            auth_service_1.AuthService,
+            config_1.ConfigService,
+            jwt_1.JwtService,
+            accessToken_strategy_1.AccessTokenStrategy,
+            refreshToken_strategy_1.RefreshTokenStrategy,
+            ...handlers_1.QueryHandlers,
+        ],
     })
 ], UsersModule);
 //# sourceMappingURL=users.module.js.map

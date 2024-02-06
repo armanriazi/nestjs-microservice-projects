@@ -9,7 +9,6 @@ import { OrderModel } from '../models/order.model';
 @Controller()
 export class UsersMicroserviceController {
   private dataInqueue: OrderModel;
-
   constructor(
     private usersService: UsersService,
     private readonly queryBus: QueryBus,
@@ -27,8 +26,6 @@ export class UsersMicroserviceController {
     return this.dataInqueue
       ? this.dataInqueue
       : await this.queryBus.execute(new GetUserByIdQuery(userId));
-    // const userResult =
-    // return userResult;
   }
 
   @MessagePattern({ cmd: 'createUser' })
@@ -45,10 +42,5 @@ export class UsersMicroserviceController {
   @EventPattern('inQueueOrderCreate')
   inQueueOrderCreate(@Payload() data: OrderModel) {
     this.dataInqueue = data;
-  }
-
-  @EventPattern('authSignined')
-  authSignined(@Payload() data: any) {
-    console.log(data);
   }
 }

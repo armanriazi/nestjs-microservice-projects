@@ -8,6 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
     "sourceMap": true,
+    "outDir": "../../.moon/cache/types/apps/auth-microservice",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -15,8 +16,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "outDir": "../../.moon/cache/types/apps/auth-microservice"
+    "noFallthroughCasesInSwitch": false
   },
   "watchOptions": {
     "watchFile": "dynamicPriorityPolling",
