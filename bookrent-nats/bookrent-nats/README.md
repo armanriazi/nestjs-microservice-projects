@@ -26,7 +26,7 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-Scroll down to read the characteristic of the microservice projects.
+Scroll down to read the characteristics of the microservice projects.
 
 ## Installation
 
@@ -105,7 +105,7 @@ The strategy for how entire directory trees are watched under systems that lack 
 ```
 
 
-# Nest.js Microservices with NATS, MySQL, & Docker
+# Nest.js Microservices
 
 This repository contains 3 Nest.js projects:
 
@@ -113,27 +113,35 @@ This repository contains 3 Nest.js projects:
 - orders-microservice
 - users-microservice
 
-You can find the video tutorial for this project [here]('https://youtube.com/)
+You can find the video tutorial for this project [here](https://player.vimeo.com/video/910976328)
 
 # Getting Started
 
 Want to set this up locally on your own? The best way to set this project up is by using Docker.
 
-1. Pull down this repository and make sure you install each projects' dependencies by running `npm run install`.
+1. Pull down this repository and make sure you install each project's dependencies by running `npm run install`.
 
-2. Ensure Docker is running then run `docker-compose up --build` to build the container, images, and pull down the mysql and nats image from Docker.
+2. Ensure Docker is running then run `docker-compose up --build` to build the container, and images, and pull down the Postgres and nats images from Docker.
 
 3. Verify that all services are up and running. The HTTP Server runs on port 3000.
 
 # Application Structure
 
+## Features
+
+- [x] Microservice Architecture
+- [x] Monorpo
+- [x] TypeORM
+- [x] CQRS
+- [x] JWT
+
 ### HTTP API Gateway
 
-This is a [hybrid application](https://docs.nestjs.com/faq/hybrid-application) that uses both HTTP and NATS as sources to listen to requests from. This is the entry point to the entire platform. It forwards the request by publishing a message to the NATS server, and then the NATS server distributes it to its subscribers.
+This is a [hybrid application](https://docs.nestjs.com/faq/hybrid-application) that uses both HTTP and NATS as sources to listen to requests. This is the entry point to the entire platform. It forwards the request by publishing a message to the NATS server, and then the NATS server distributes it to its subscribers.
 
 Any HTTP API endpoints should be defined in this project.
 
-### orders Microservice
+### Orders Microservice
 
 This is a sample microservice that has a createOrder event handler from the NATS server whenever it is triggered. It will create a order record and save it to the database.
 
@@ -144,7 +152,7 @@ This is a user microservice that has a createUser event handler from the NATS se
 
 # Monorepo 
 
-Config file for subprojects to build independent of the other projects or monorepo building. Before building with monorepo, we must build sub projects independents based on the follow configuration.
+Config file for subprojects to build independent of the other projects or monorepo building. Before building with Monorepo, we must build sub-projects independently based on the following configuration.
 
 ```json
 {
@@ -180,11 +188,10 @@ Config file for subprojects to build independent of the other projects or monore
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Nest is an MIT-licensed open-source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
-- Main Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
 - Website - [https://nestjs.com](https://armanriazi.github.io/)
 - Twitter - [@nestframework](https://twitter.com/armanriazi.meta)
 
