@@ -43,9 +43,10 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException();
     }
-    const tokens = await this.getTokens(user.id, user.username);
-    const userToken = { username, ...tokens };
-    await this.updateRefreshToken(user.id, tokens.refreshToken);
+    const userId = user.id;
+    const tokens = await this.getTokens(userId, user.username);
+    const userToken = { userId, username, ...tokens };
+    await this.updateRefreshToken(userId, tokens.refreshToken);
     return userToken;
   }
   async signOut(userId: string) {
@@ -67,7 +68,7 @@ export class AuthService {
         },
         {
           secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-          expiresIn: '1m',
+          expiresIn: '5m',
         },
       ),
       this.jwtService.signAsync(
